@@ -365,34 +365,63 @@ def main():
     # 显示欢迎信息
     cli.display_welcome()
     
-    # 获取文件夹路径
-    folder_path = args.folder
+    # 判断是否为交互模式（没有指定文件夹参数）
+    interactive_mode = args.folder is None
     
-    if not folder_path:
-        # 交互模式：提示用户输入
-        folder_path = cli.prompt_folder_path()
-    else:
-        # 验证命令行提供的路径
-        if not os.path.exists(folder_path):
-            print(f"错误: 路径不存在: {folder_path}")
-            logging.error(f"路径不存在: {folder_path}")
-            return 1
+    # 主循环 - 允许用户连续处理多个文件夹
+    while True:
+        # 获取文件夹路径
+        folder_path = args.folder
         
-        if not os.path.isdir(folder_path):
-            print(f"错误: 该路径不是文件夹: {folder_path}")
-            logging.error(f"路径不是文件夹: {folder_path}")
-            return 1
+        if not folder_path:
+            # 交互模式：提示用户输入
+            try:
+                folder_path = cli.prompt_folder_path()
+            except (KeyboardInterrupt, EOFError):
+                print("\n\n操作已取消。")
+                logging.info("用户取消操作")
+                break
+        else:
+            # 验证命令行提供的路径
+            if not os.path.exists(folder_path):
+                print(f"错误: 路径不存在: {folder_path}")
+                logging.error(f"路径不存在: {folder_path}")
+                return 1
+            
+            if not os.path.isdir(folder_path):
+                print(f"错误: 该路径不是文件夹: {folder_path}")
+                logging.error(f"路径不是文件夹: {folder_path}")
+                return 1
+            
+            folder_path = os.path.abspath(folder_path)
         
-        folder_path = os.path.abspath(folder_path)
-    
-    # 运行主工作流
-    exit_code = run_workflow(
-        folder_path=folder_path,
-        dry_run=args.dry_run,
-        auto_strategy=args.auto,
-        use_colors=use_colors,
-        use_progress_bar=use_progress_bar
-    )
+        # 运行主工作流
+        exit_code = run_workflow(
+            folder_path=folder_path,
+            dry_run=args.dry_run,
+            auto_strategy=args.auto,
+            use_colors=use_colors,
+            use_progress_bar=use_progress_bar
+        )
+        
+        # 如果是命令行模式（指定了文件夹），处理完一次就退出
+        if not interactive_mode:
+            logging.info("程序退出")
+            return exit_code
+        
+        # 交互模式：询问是否继续
+        print("\n" + "=" * 60)
+        try:
+            choice = input("是否继续扫描其他文件夹？(y/n): ").strip().lower()
+            if choice not in ['y', 'yes', '是']:
+                print("\n感谢使用！再见！")
+                logging.info("用户选择退出")
+                break
+            print()  # 空行分隔
+        except (KeyboardInterrupt, EOFError):
+            print("\n\n操作已取消。")
+            logging.info("用户取消操作")
+            break
     
     logging.info("程序退出")
     
@@ -402,7 +431,7 @@ def main():
         print("\n" + "=" * 60)
         input("按 Enter 键退出...")
     
-    return exit_code
+    return 0
 
 
 if __name__ == "__main__":
