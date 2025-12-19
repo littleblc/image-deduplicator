@@ -60,3 +60,7 @@ logs/
 *.tmp
 *.bak
 .cache/
+
+# PyInstaller
+build/
+# dist/ folder contains the EXE, we might want to keep it for releases
