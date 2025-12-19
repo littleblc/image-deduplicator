@@ -395,6 +395,13 @@ def main():
     )
     
     logging.info("程序退出")
+    
+    # 如果是通过双击运行（没有命令行参数），在退出前暂停
+    # 这样用户可以看到结果
+    if len(sys.argv) == 1:
+        print("\n" + "=" * 60)
+        input("按 Enter 键退出...")
+    
     return exit_code
 
 
