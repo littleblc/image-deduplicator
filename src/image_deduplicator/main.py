@@ -18,7 +18,8 @@ from .cli import CLI
 
 # 默认配置
 DEFAULT_CONFIG = {
-    "supported_extensions": [".jpg", ".jpeg", ".png", ".gif", ".bmp", ".webp", ".tiff"],
+    "supported_image_extensions": [".jpg", ".jpeg", ".png", ".gif", ".bmp", ".webp", ".tiff"],
+    "supported_video_extensions": [".mp4", ".avi", ".mkv", ".mov", ".wmv", ".flv", ".webm", ".m4v", ".mpg", ".mpeg"],
     "chunk_size": 8192,
     "default_strategy": "keep_first",
     "enable_cache": True,
@@ -222,11 +223,11 @@ def run_workflow(
         
         cli.close_progress()  # 关闭进度条
         print()  # 换行
-        print(f"✓ 扫描完成，找到 {len(image_files)} 个图片文件（耗时 {scan_time:.2f} 秒）")
+        print(f"✓ 扫描完成，找到 {len(image_files)} 个文件（耗时 {scan_time:.2f} 秒）")
         logging.info(f"扫描完成: {len(image_files)} 个文件，耗时 {scan_time:.2f} 秒")
         
         if len(image_files) == 0:
-            print("未找到任何图片文件。")
+            print("未找到任何支持的文件。")
             return 0
         
         # 2. 计算哈希值

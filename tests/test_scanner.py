@@ -149,3 +149,60 @@ class TestFileScanner:
             
             assert len(result) == 1
             assert os.path.isabs(result[0])
+
+    def test_is_video_file_with_supported_extensions(self):
+        """测试视频文件识别 - 支持的扩展名"""
+        scanner = FileScanner()
+        
+        # 测试支持的视频格式
+        assert scanner.is_video_file("video.mp4") is True
+        assert scanner.is_video_file("video.MP4") is True
+        assert scanner.is_video_file("video.avi") is True
+        assert scanner.is_video_file("video.mkv") is True
+        assert scanner.is_video_file("video.mov") is True
+        assert scanner.is_video_file("video.wmv") is True
+        assert scanner.is_video_file("video.flv") is True
+        assert scanner.is_video_file("video.webm") is True
+        assert scanner.is_video_file("video.m4v") is True
+        assert scanner.is_video_file("video.mpg") is True
+        assert scanner.is_video_file("video.mpeg") is True
+    
+    def test_scan_directory_with_videos(self, fs):
+        """测试扫描包含视频文件的目录"""
+        # 创建测试文件夹和视频文件
+        test_dir = "/test/videos"
+        fs.create_dir(test_dir)
+        fs.create_file(f"{test_dir}/video1.mp4", contents="video content 1")
+        fs.create_file(f"{test_dir}/video2.avi", contents="video content 2")
+        fs.create_file(f"{test_dir}/document.txt", contents="not a video")
+        
+        scanner = FileScanner()
+        result = scanner.scan(test_dir)
+        
+        # 应该找到2个视频文件
+        assert len(result) == 2
+        assert any("video1.mp4" in path for path in result)
+        assert any("video2.avi" in path for path in result)
+    
+    def test_scan_directory_with_mixed_media(self, fs):
+        """测试扫描包含图片和视频的目录"""
+        # 创建测试文件夹
+        test_dir = "/test/media"
+        fs.create_dir(test_dir)
+        
+        # 创建图片文件
+        fs.create_file(f"{test_dir}/image1.jpg", contents="image 1")
+        fs.create_file(f"{test_dir}/image2.png", contents="image 2")
+        
+        # 创建视频文件
+        fs.create_file(f"{test_dir}/video1.mp4", contents="video 1")
+        fs.create_file(f"{test_dir}/video2.mkv", contents="video 2")
+        
+        # 创建其他文件
+        fs.create_file(f"{test_dir}/document.pdf", contents="not media")
+        
+        scanner = FileScanner()
+        result = scanner.scan(test_dir)
+        
+        # 应该找到4个文件（2个图片 + 2个视频）
+        assert len(result) == 4

@@ -73,13 +73,17 @@ class CLI:
             print(separator)
         
         print()
-        print("本工具可以帮助您扫描文件夹中的重复图片并进行清理。")
+        print("本工具可以帮助您扫描文件夹中的重复图片和视频并进行清理。")
         
-        formats = ".jpg, .jpeg, .png, .gif, .bmp, .webp, .tiff"
+        image_formats = ".jpg, .jpeg, .png, .gif, .bmp, .webp, .tiff"
+        video_formats = ".mp4, .avi, .mkv, .mov, .wmv, .flv, .webm, .m4v, .mpg, .mpeg"
+        
         if self.use_colors:
-            print(f"支持的图片格式: {self._colorize(formats, Fore.GREEN)}")
+            print(f"支持的图片格式: {self._colorize(image_formats, Fore.GREEN)}")
+            print(f"支持的视频格式: {self._colorize(video_formats, Fore.CYAN)}")
         else:
-            print(f"支持的图片格式: {formats}")
+            print(f"支持的图片格式: {image_formats}")
+            print(f"支持的视频格式: {video_formats}")
         
         print()
     

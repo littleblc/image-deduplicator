@@ -6,20 +6,27 @@ from typing import List, Optional, Callable
 
 
 class FileScanner:
-    """文件扫描器，负责递归扫描文件夹并识别图片文件"""
+    """文件扫描器，负责递归扫描文件夹并识别图片和视频文件"""
     
-    SUPPORTED_EXTENSIONS = {'.jpg', '.jpeg', '.png', '.gif', '.bmp', '.webp', '.tiff'}
+    # 支持的图片格式
+    SUPPORTED_IMAGE_EXTENSIONS = {'.jpg', '.jpeg', '.png', '.gif', '.bmp', '.webp', '.tiff'}
+    
+    # 支持的视频格式
+    SUPPORTED_VIDEO_EXTENSIONS = {'.mp4', '.avi', '.mkv', '.mov', '.wmv', '.flv', '.webm', '.m4v', '.mpg', '.mpeg'}
+    
+    # 所有支持的格式
+    SUPPORTED_EXTENSIONS = SUPPORTED_IMAGE_EXTENSIONS | SUPPORTED_VIDEO_EXTENSIONS
     
     def scan(self, folder_path: str, progress_callback: Optional[Callable] = None) -> List[str]:
         """
-        扫描指定文件夹，返回所有图片文件路径
+        扫描指定文件夹，返回所有图片和视频文件路径
         
         参数:
             folder_path: 目标文件夹路径
             progress_callback: 可选的进度回调函数，接收 (current_count, message) 参数
             
         返回:
-            图片文件路径列表
+            图片和视频文件路径列表
             
         异常:
             ValueError: 如果文件夹路径无效
@@ -60,8 +67,8 @@ class FileScanner:
                 for file_name in files:
                     file_path = os.path.join(root, file_name)
                     
-                    # 检查是否为图片文件
-                    if self.is_image_file(file_path):
+                    # 检查是否为支持的文件（图片或视频）
+                    if self.is_supported_file(file_path):
                         # 获取绝对路径
                         abs_path = os.path.abspath(file_path)
                         image_files.append(abs_path)
@@ -79,6 +86,18 @@ class FileScanner:
     
     def is_image_file(self, file_path: str) -> bool:
         """判断文件是否为支持的图片格式"""
+        # 获取文件扩展名（转换为小写）
+        ext = os.path.splitext(file_path)[1].lower()
+        return ext in self.SUPPORTED_IMAGE_EXTENSIONS
+    
+    def is_video_file(self, file_path: str) -> bool:
+        """判断文件是否为支持的视频格式"""
+        # 获取文件扩展名（转换为小写）
+        ext = os.path.splitext(file_path)[1].lower()
+        return ext in self.SUPPORTED_VIDEO_EXTENSIONS
+    
+    def is_supported_file(self, file_path: str) -> bool:
+        """判断文件是否为支持的格式（图片或视频）"""
         # 获取文件扩展名（转换为小写）
         ext = os.path.splitext(file_path)[1].lower()
         return ext in self.SUPPORTED_EXTENSIONS

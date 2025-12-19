@@ -53,7 +53,8 @@ def test_prompt_folder_path_invalid_then_valid():
 
 def test_display_progress():
     """测试进度显示"""
-    cli = CLI()
+    # 禁用 tqdm 进度条以便测试简单的文本输出
+    cli = CLI(use_progress_bar=False)
     
     with patch('sys.stdout', new=StringIO()) as fake_out:
         cli.display_progress(50, 100, "扫描中")
