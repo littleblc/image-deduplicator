@@ -28,7 +28,8 @@ pip install image-deduplicator
 ### 从源码安装
 
 ```bash
-# 在项目目录中安装
+git clone https://github.com/littleblc/image-deduplicator.git
+cd image-deduplicator
 pip install -e .
 ```
 
@@ -355,6 +356,11 @@ image-deduplicator --no-progress
 ## 许可证
 
 本项目采用 MIT 许可证。
+
+## 链接
+
+- GitHub 仓库: https://github.com/littleblc/image-deduplicator
+- 问题反馈: https://github.com/littleblc/image-deduplicator/issues
 
 ## 更新日志
 

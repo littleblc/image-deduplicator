@@ -672,7 +672,7 @@ pip install image-deduplicator
 
 或从源码安装：
 ```bash
-git clone https://github.com/user/image-deduplicator.git
+git clone https://github.com/littleblc/image-deduplicator.git
 cd image-deduplicator
 pip install -e .
 ```
