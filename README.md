@@ -16,13 +16,31 @@
 - ✨ **配置文件支持**（~/.image-deduplicator/config.json）
 - ✨ **详细的帮助文档**（见 USAGE.md）
 
-## 安装
+## 下载和安装
 
-### 基本安装
+### 💻 Windows 用户（推荐）
 
-在项目目录中运行：
+**[直接下载 EXE 文件](https://github.com/littleblc/image-deduplicator/raw/main/dist/image-deduplicator.exe)** - 无需安装 Python！
+
+- 文件大小：约 9 MB
+- 系统要求：Windows 7+
+- 下载后直接运行
+
+查看 [EXE 使用说明](EXE_README.md) 了解详情。
+
+### 🐍 Python 用户
+
+#### 从 GitHub 安装
 
 ```bash
+pip install git+https://github.com/littleblc/image-deduplicator.git
+```
+
+#### 从源码安装
+
+```bash
+git clone https://github.com/littleblc/image-deduplicator.git
+cd image-deduplicator
 pip install -e .
 ```
 
