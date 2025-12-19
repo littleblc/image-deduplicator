@@ -1,0 +1,38 @@
+快速设置 GitHub 仓库 - 复制粘贴这些命令
+==============================================
+
+步骤 1: 初始化 Git 仓库
+-----------------------
+git init
+git add .
+git commit -m "Initial commit: Image Deduplicator v0.1.0"
+
+
+步骤 2: 创建 GitHub 仓库
+-----------------------
+1. 在浏览器中打开: https://github.com/new
+2. Repository name: image-deduplicator
+3. Description: 图片去重工具 - 扫描并删除重复的图片文件
+4. 选择 Public 或 Private
+5. 不要勾选任何初始化选项
+6. 点击 "Create repository"
+
+
+步骤 3: 连接并推送到 GitHub
+--------------------------
+# 替换 YOUR_USERNAME 为你的 GitHub 用户名
+git remote add origin https://github.com/YOUR_USERNAME/image-deduplicator.git
+git branch -M main
+git push -u origin main
+
+
+步骤 4: 验证
+-----------
+在浏览器中访问: https://github.com/YOUR_USERNAME/image-deduplicator
+
+
+完成！
+=====
+你的项目现在已经在 GitHub 上了！
+
+如果需要更新文档中的链接，请查看 GITHUB_SETUP.md 文件获取详细说明。

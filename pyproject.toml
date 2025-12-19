@@ -1,0 +1,70 @@
+[build-system]
+requires = ["setuptools>=61.0", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "image-deduplicator"
+version = "0.1.0"
+description = "A command-line tool to find and remove duplicate images"
+readme = "README.md"
+requires-python = ">=3.8"
+authors = [
+    {name = "Image Deduplicator Team"}
+]
+classifiers = [
+    "Development Status :: 3 - Alpha",
+    "Intended Audience :: End Users/Desktop",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.8",
+    "Programming Language :: Python :: 3.9",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+]
+
+dependencies = []
+
+[project.optional-dependencies]
+test = [
+    "pytest>=7.0",
+    "hypothesis>=6.0",
+    "pytest-cov>=4.0",
+    "pyfakefs>=5.0",
+]
+optional = [
+    "Pillow>=9.0",
+    "tqdm>=4.64.0",
+    "colorama>=0.4.6",
+]
+all = [
+    "pytest>=7.0",
+    "hypothesis>=6.0",
+    "pytest-cov>=4.0",
+    "pyfakefs>=5.0",
+    "Pillow>=9.0",
+    "tqdm>=4.64.0",
+    "colorama>=0.4.6",
+]
+
+[project.scripts]
+image-deduplicator = "image_deduplicator.main:main"
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+python_files = ["test_*.py"]
+python_classes = ["Test*"]
+python_functions = ["test_*"]
+addopts = "-v --strict-markers"
+
+[tool.coverage.run]
+source = ["src"]
+omit = ["*/tests/*", "*/test_*.py"]
+
+[tool.coverage.report]
+exclude_lines = [
+    "pragma: no cover",
+    "def __repr__",
+    "raise AssertionError",
+    "raise NotImplementedError",
+    "if __name__ == .__main__.:",
+    "if TYPE_CHECKING:",
+]
